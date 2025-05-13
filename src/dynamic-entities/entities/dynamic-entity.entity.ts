@@ -6,28 +6,13 @@ import { FieldType, FieldValidation } from "src/common/types/field-types.enum";
 
 export type DynamicEntityDocument = HydratedDocument<DynamicEntity>
 
-export class FieldDefinition {
-  @IsString()
-  name: string;
-
-  @IsEnum(FieldType)
-  type: FieldType;
-
-  @IsOptional()
-  @ValidateNested()
-  @Type(() => FieldValidation) 
-  validation?: FieldValidation;
-}
-
 @Schema({ timestamps: true })
 export class DynamicEntity {
-  @Prop({required: true, unique: true})
-  name: string
+  @Prop({ required: true, unique: true })
+  name: string;
 
-  @Prop({ required: true, type: [Object] })
-  @ValidateNested({ each: true })
-  @Type(() => FieldDefinition)
-  fields: FieldDefinition[];
+  @Prop({ type: Array, required: true })
+  fields: { name: string; type: string; required: boolean }[];
 }
 
 export const DynamicEntitySchema = SchemaFactory.createForClass(DynamicEntity);

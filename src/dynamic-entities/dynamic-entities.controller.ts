@@ -11,34 +11,17 @@ export class DynamicEntitiesController {
   constructor(private readonly dynamicEntitiesService: DynamicEntitiesService) {}
 
   @Post()
-  async create(@Body() body: any) {
-    const createDynamicEntityDto = plainToInstance(DynamicEntity, body);
-    const errors = await validate(createDynamicEntityDto)
-    if (errors.length > 0)
-    {
-      throw new Error(errors.toString())
-    }
-    
+  async create(@Body() createDynamicEntityDto: CreateDynamicEntityDto) {
+
     return await this.dynamicEntitiesService.create(createDynamicEntityDto);
   }
 
-  @Get()
-  findAll() {
-    return this.dynamicEntitiesService.findAll();
+
+
+   @Post(':entityName/data')
+  async createDynamicData(@Param('entityName') entityName: string, @Body() data: any) {
+    return await this.dynamicEntitiesService.createDynamicRecord(entityName, data)
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.dynamicEntitiesService.findOne(+id);
-  }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateDynamicEntityDto: UpdateDynamicEntityDto) {
-    return this.dynamicEntitiesService.update(+id, updateDynamicEntityDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.dynamicEntitiesService.remove(+id);
-  }
 }

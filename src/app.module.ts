@@ -5,7 +5,6 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { DynamicEntitiesModule } from './dynamic-entities/dynamic-entities.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { softDeletePlugin } from 'soft-delete-plugin-mongoose';
-import { DynamicRecordModule } from './dynamic-record/dynamic-record.module';
 
 @Module({
   imports: [MongooseModule.forRootAsync({
@@ -17,7 +16,7 @@ import { DynamicRecordModule } from './dynamic-record/dynamic-record.module';
         return connection;
       }
     }), inject: [ConfigService]
-  }), ConfigModule.forRoot({ isGlobal: true }),DynamicEntitiesModule, DynamicRecordModule],
+  }), ConfigModule.forRoot({ isGlobal: true }),DynamicEntitiesModule],
    controllers: [AppController],
   providers: [AppService],
 })
